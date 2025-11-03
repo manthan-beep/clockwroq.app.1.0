@@ -1,0 +1,33 @@
+{
+  "name": "idurar-erp-crm-root",
+  "version": "4.1.0",
+  "description": "IDURAR ERP CRM - Root package for Railway deployment",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "setup:backend": "cd backend && npm run setup",
+    "start:backend": "cd backend && npm start",
+    "build": "npm run install:all && npm run build:frontend",
+    "start": "npm run start:backend"
+  },
+  "engines": {
+    "node": "20.9.0",
+    "npm": "10.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idurar/idurar-erp-crm.git"
+  },
+  "keywords": [
+    "erp",
+    "crm",
+    "invoice",
+    "accounting"
+  ],
+  "author": "IDURAR",
+  "license": "AGPL-3.0"
+}
+
