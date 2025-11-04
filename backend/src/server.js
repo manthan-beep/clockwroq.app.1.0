@@ -25,6 +25,15 @@ mongoose.connection.on('error', (error) => {
   console.error(`2. 🚫 Error → : ${error.message}`);
 });
 
+mongoose.connection.on('connected', () => {
+  console.log('✅ MongoDB Atlas connected successfully!');
+  console.log(`📊 Database: ${mongoose.connection.name || 'Connected'}`);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ MongoDB Atlas disconnected');
+});
+
 const modelsFiles = globSync('./src/models/**/*.js');
 
 for (const filePath of modelsFiles) {

@@ -19,6 +19,26 @@ const path = require('path');
 // create our Express app
 const app = express();
 
+// Trust Railway's proxy to set correct headers (required for HTTPS detection)
+app.set('trust proxy', 1);
+
+// Force HTTPS redirect in production
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    // Check if request is secure (HTTPS) or if Railway proxy header indicates HTTPS
+    const isSecure = req.secure || 
+                     req.headers['x-forwarded-proto'] === 'https' ||
+                     req.headers['x-forwarded-ssl'] === 'on';
+    
+    // If not secure and not already redirected, redirect to HTTPS
+    if (!isSecure && req.method === 'GET') {
+      const httpsUrl = `https://${req.headers.host}${req.url}`;
+      return res.redirect(301, httpsUrl);
+    }
+    next();
+  });
+}
+
 app.use(
   cors({
     origin: true,
