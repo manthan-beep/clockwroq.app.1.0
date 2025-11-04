@@ -69,7 +69,7 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
         <Col className="gutter-row" span={8}>
           <Form.Item
             name="client"
-            label={translate('Client')}
+            label={translate('client')}
             rules={[
               {
                 required: true,

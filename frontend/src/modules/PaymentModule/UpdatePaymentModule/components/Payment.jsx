@@ -86,7 +86,7 @@ export default function Payment({ config, currentItem }) {
           lg={{ span: 10, order: 2, push: 4 }}
         >
           <div className="space50"></div>
-          <Descriptions title={`${translate('Client')} : ${currentErp.client.name}`} column={1}>
+          <Descriptions title={`${translate('client')} : ${currentErp.client.name}`} column={1}>
             <Descriptions.Item label={translate('email')}>{client.email}</Descriptions.Item>
             <Descriptions.Item label={translate('Phone')}>{client.phone}</Descriptions.Item>
             <Divider dashed />

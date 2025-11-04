@@ -32,10 +32,10 @@ export default function CustomerPreviewCard({
               }}
             >
               <Progress type="dashboard" percent={newCustomer} size={148} />
-              <p>{translate('New Customer this Month')}</p>
+              <p>{translate('new_customer_this_month')}</p>
               <Divider />
               <Statistic
-                title={translate('Active Customer')}
+                title={translate('active_customer')}
                 value={activeCustomer}
                 precision={2}
                 valueStyle={

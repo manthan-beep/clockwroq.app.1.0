@@ -23,7 +23,7 @@ export default function Quote() {
       dataIndex: 'number',
     },
     {
-      title: translate('Client'),
+      title: translate('client'),
       dataIndex: ['client', 'name'],
     },
     {

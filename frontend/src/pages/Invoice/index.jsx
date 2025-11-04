@@ -24,7 +24,7 @@ export default function Invoice() {
       dataIndex: 'number',
     },
     {
-      title: translate('Client'),
+      title: translate('client'),
       dataIndex: ['client', 'name'],
     },
     {

@@ -23,7 +23,7 @@ export default function Payment() {
       dataIndex: 'number',
     },
     {
-      title: translate('Client'),
+      title: translate('client'),
       dataIndex: ['client', 'name'],
     },
     {
