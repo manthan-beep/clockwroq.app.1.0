@@ -7,49 +7,57 @@ import useLanguage from '@/locale/useLanguage';
 export default function LoginForm() {
   const translate = useLanguage();
   return (
-    <div>
+    <div className="clockworq-form-fields">
       <Form.Item
-        label={translate('email')}
         name="email"
         rules={[
           {
             required: true,
+            message: 'Please enter your email',
           },
           {
             type: 'email',
+            message: 'Please enter a valid email',
           },
         ]}
+        style={{ marginBottom: 24 }}
       >
         <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder={'admin@admin.com'}
+          prefix={<UserOutlined className="clockworq-input-icon" />}
+          placeholder="Enter your email"
           type="email"
           size="large"
+          className="clockworq-input"
         />
       </Form.Item>
+      
       <Form.Item
-        label={translate('password')}
         name="password"
         rules={[
           {
             required: true,
+            message: 'Please enter your password',
           },
         ]}
+        style={{ marginBottom: 16 }}
       >
         <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder={'admin123'}
+          prefix={<LockOutlined className="clockworq-input-icon" />}
+          placeholder="Enter your password"
           size="large"
+          className="clockworq-input"
         />
       </Form.Item>
 
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>{translate('Remember me')}</Checkbox>
-        </Form.Item>
-        <a className="login-form-forgot" href="/forgetpassword" style={{ marginLeft: '0px' }}>
-          {translate('Forgot password')}
-        </a>
+      <Form.Item style={{ marginBottom: 24 }}>
+        <div className="clockworq-form-options">
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox className="clockworq-checkbox">{translate('Remember me')}</Checkbox>
+          </Form.Item>
+          <a className="clockworq-forgot-link" href="/forgetpassword">
+            {translate('Forgot password')}
+          </a>
+        </div>
       </Form.Item>
     </div>
   );

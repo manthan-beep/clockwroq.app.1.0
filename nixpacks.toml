@@ -1,8 +1,6 @@
 # Nixpacks configuration for Railway
 # This file helps Railway/Nixpacks understand how to build your application
-
-[phases.setup]
-nixPkgs = ["nodejs-20_x", "npm"]
+# Nixpacks will auto-detect Node.js version from package.json engines field
 
 [phases.install]
 cmds = [
@@ -17,4 +15,5 @@ cmds = [
 
 [start]
 cmd = "cd backend && npm start"
+
 

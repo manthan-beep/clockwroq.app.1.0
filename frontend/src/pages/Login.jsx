@@ -17,7 +17,6 @@ const LoginPage = () => {
   const translate = useLanguage();
   const { isLoading, isSuccess } = useSelector(selectAuth);
   const navigate = useNavigate();
-  // const size = useSize();
 
   const dispatch = useDispatch();
   const onFinish = (values) => {
@@ -31,35 +30,38 @@ const LoginPage = () => {
   const FormContainer = () => {
     return (
       <Loading isLoading={isLoading}>
-        <Form
-          layout="vertical"
-          name="normal_login"
-          className="login-form"
-          initialValues={{
-            remember: true,
-            email:'admin@admin.com',
-            password:'admin123',
-          }}
-          onFinish={onFinish}
-        >
-          <LoginForm />
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              loading={isLoading}
-              size="large"
-            >
-              {translate('Log in')}
-            </Button>
-          </Form.Item>
-        </Form>
+        <div className="clockworq-login-container">
+          <Form
+            layout="vertical"
+            name="normal_login"
+            className="clockworq-login-form"
+            initialValues={{
+              remember: true,
+              email:'admin@admin.com',
+              password:'admin123',
+            }}
+            onFinish={onFinish}
+          >
+            <LoginForm />
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="clockworq-login-button"
+                loading={isLoading}
+                size="large"
+                block
+              >
+                {translate('Log in')}
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </Loading>
     );
   };
 
-  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Sign in" />;
+  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Welcome back" />;
 };
 
 export default LoginPage;
