@@ -19,7 +19,7 @@ export default function CustomerPreviewCard({
           }}
         >
           <h3 style={{ color: '#333', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
-            {translate('Customers')}
+            {translate('leads')}
           </h3>
 
           {isLoading ? (
