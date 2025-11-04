@@ -5,8 +5,6 @@ import { Layout, Col, Typography } from 'antd';
 import AuthLayout from '@/layout/AuthLayout';
 import SideContent from './SideContent';
 
-import logo from '@/style/images/idurar-crm-erp.svg';
-
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -17,12 +15,7 @@ const AuthModule = ({ authContent, AUTH_TITLE, isForRegistre = false }) => {
       <Content className="clockworq-auth-content">
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 0 }} span={0}>
           <div className="clockworq-mobile-logo">
-            <img
-              src={logo}
-              alt="Logo"
-              height={48}
-              width={160}
-            />
+            <Text className="clockworq-mobile-logo-text">clockworq.ai</Text>
           </div>
         </Col>
         
