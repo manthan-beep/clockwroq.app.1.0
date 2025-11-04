@@ -5,10 +5,11 @@ import { Button, Drawer, Layout, Menu } from 'antd';
 import { useAppContext } from '@/context/appContext';
 
 import useLanguage from '@/locale/useLanguage';
-import logoIcon from '@/style/images/logo-icon.svg';
-import logoText from '@/style/images/logo-text.svg';
+import { Typography } from 'antd';
 
 import useResponsive from '@/hooks/useResponsive';
+
+const { Text } = Typography;
 
 import {
   SettingOutlined,
@@ -149,21 +150,23 @@ function Sidebar({ collapsible, isMobile = false }) {
         onClick={() => navigate('/')}
         style={{
           cursor: 'pointer',
+          padding: '16px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: showLogoApp ? 'center' : 'flex-start',
         }}
       >
-        <img src={logoIcon} alt="Logo" style={{ marginLeft: '-5px', height: '40px' }} />
-
-        {!showLogoApp && (
-          <img
-            src={logoText}
-            alt="Logo"
-            style={{
-              marginTop: '3px',
-              marginLeft: '10px',
-              height: '38px',
-            }}
-          />
-        )}
+        <Text
+          style={{
+            color: '#7dd3fc',
+            fontSize: showLogoApp ? '20px' : '18px',
+            fontWeight: 600,
+            letterSpacing: '-0.5px',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {showLogoApp ? 'c' : 'clockworq.ai'}
+        </Text>
       </div>
       <Menu
         items={items}
