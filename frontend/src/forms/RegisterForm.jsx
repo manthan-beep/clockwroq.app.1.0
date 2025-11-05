@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { Form, Input, Select } from 'antd';
+import React from 'react';
+import { Form, Input } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 import useLanguage from '@/locale/useLanguage';
-import { countryList } from '@/utils/countryList';
 
-export default function RegisterForm({ userLocation }) {
+export default function RegisterForm() {
   const translate = useLanguage();
 
   return (
@@ -16,8 +15,15 @@ export default function RegisterForm({ userLocation }) {
         rules={[
           {
             required: true,
+            message: 'Please input your name!',
           },
         ]}
+      >
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} size="large" />
+      </Form.Item>
+      <Form.Item
+        name="surname"
+        label={translate('surname')}
       >
         <Input prefix={<UserOutlined className="site-form-item-icon" />} size="large" />
       </Form.Item>
@@ -27,9 +33,11 @@ export default function RegisterForm({ userLocation }) {
         rules={[
           {
             required: true,
+            message: 'Please input your email!',
           },
           {
             type: 'email',
+            message: 'Please enter a valid email!',
           },
         ]}
       >
@@ -45,17 +53,21 @@ export default function RegisterForm({ userLocation }) {
         rules={[
           {
             required: true,
+            min: 6,
+            message: 'Password must be at least 6 characters',
           },
         ]}
       >
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
       </Form.Item>
-      {/* <Form.Item
+      <Form.Item
         name="confirm_password"
         label={translate('confirm_password')}
+        dependencies={['password']}
         rules={[
           {
             required: true,
+            message: 'Please confirm your password!',
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
@@ -69,43 +81,6 @@ export default function RegisterForm({ userLocation }) {
         hasFeedback
       >
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
-      </Form.Item> */}
-      <Form.Item
-        label={translate('country')}
-        name="country"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-        initialValue={userLocation}
-      >
-        <Select
-          showSearch
-          defaultOpen={false}
-          optionFilterProp="children"
-          filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-          }
-          filterSort={(optionA, optionB) =>
-            (optionA?.label ?? '').toLowerCase().startsWith((optionB?.label ?? '').toLowerCase())
-          }
-          style={{
-            width: '100%',
-          }}
-          size="large"
-        >
-          {countryList.map((language) => (
-            <Select.Option
-              key={language.value}
-              value={language.value}
-              label={translate(language.label)}
-            >
-              {language?.icon && language?.icon + ' '}
-              {translate(language.label)}
-            </Select.Option>
-          ))}
-        </Select>
       </Form.Item>
     </>
   );

@@ -7,25 +7,32 @@ import useLanguage from '@/locale/useLanguage';
 
 import { Form, Button } from 'antd';
 
-import { login } from '@/redux/auth/actions';
+import { register } from '@/redux/auth/actions';
 import { selectAuth } from '@/redux/auth/selectors';
-import LoginForm from '@/forms/LoginForm';
+import RegisterForm from '@/forms/RegisterForm';
 import Loading from '@/components/Loading';
 import AuthModule from '@/modules/AuthModule';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const translate = useLanguage();
   const { isLoading, isSuccess } = useSelector(selectAuth);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const onFinish = (values) => {
-    dispatch(login({ loginData: values }));
+    // Remove confirm_password before sending to backend
+    const { confirm_password, ...registerData } = values;
+    dispatch(register({ registerData }));
   };
 
   useEffect(() => {
-    if (isSuccess) navigate('/');
-  }, [isSuccess]);
+    if (isSuccess) {
+      // After successful registration, redirect to login page
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    }
+  }, [isSuccess, navigate]);
 
   const FormContainer = () => {
     return (
@@ -33,16 +40,12 @@ const LoginPage = () => {
         <div className="clockworq-login-container">
           <Form
             layout="vertical"
-            name="normal_login"
+            name="register_form"
             className="clockworq-login-form"
-            initialValues={{
-              remember: true,
-              email:'admin@admin.com',
-              password:'admin123',
-            }}
             onFinish={onFinish}
+            autoComplete="off"
           >
-            <LoginForm />
+            <RegisterForm />
             <Form.Item style={{ marginBottom: 0 }}>
               <Button
                 type="primary"
@@ -52,13 +55,13 @@ const LoginPage = () => {
                 size="large"
                 block
               >
-                {translate('Log in')}
+                {translate('sign_up')}
               </Button>
             </Form.Item>
             <Form.Item style={{ marginTop: 16, textAlign: 'center' }}>
               <span>
-                {translate('dont_have_account')}{' '}
-                <Link to="/register">{translate('sign_up')}</Link>
+                {translate('already_have_account')}{' '}
+                <Link to="/login">{translate('log_in')}</Link>
               </span>
             </Form.Item>
           </Form>
@@ -67,7 +70,8 @@ const LoginPage = () => {
     );
   };
 
-  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Welcome back" />;
+  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Create your account" />;
 };
 
-export default LoginPage;
+export default RegisterPage;
+
