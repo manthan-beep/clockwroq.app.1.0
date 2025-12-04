@@ -9,12 +9,7 @@ const { TextArea } = Input;
 const { Text, Title } = Typography;
 
 const Emily = () => {
-    const [messages, setMessages] = useState([
-        {
-            role: 'assistant',
-            content: 'Hello! I am Emily, your AI assistant. How can I help you with your business today?',
-        },
-    ]);
+    const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -76,25 +71,11 @@ const Emily = () => {
         setIsUploading(true);
 
         try {
-            // We need to use a custom request or axios directly for file upload if the request utility doesn't support FormData easily
-            // Assuming request.post can handle it or we use fetch/axios
-            // Here using fetch for simplicity with the auth token if needed, but let's try to use the request utility pattern if possible.
-            // Since request utility might be strict on JSON, let's use standard fetch with the token from localStorage
-
-            const token = window.localStorage.getItem('auth_token'); // Adjust key based on auth implementation
-            // Actually, let's try to use the request wrapper if it supports it, otherwise fallback.
-            // Looking at the codebase, let's assume we can use a direct axios call or similar.
-            // For now, I will implement a direct fetch to the endpoint we created.
-
-            // Note: In a real scenario, I'd check request.js. For now, I'll use a direct fetch to /api/emily/upload
-
-            // Construct URL (using relative path as proxy is likely set up or base URL is known)
-            // We need to get the API_BASE_URL. Let's import it if possible, or just use /api/
-
+            const token = window.localStorage.getItem('auth_token');
             const response = await fetch('/api/emily/upload', {
                 method: 'POST',
                 headers: {
-                    'x-auth-token': window.localStorage.getItem('x-auth-token'), // Check actual token key
+                    'x-auth-token': window.localStorage.getItem('x-auth-token'),
                 },
                 body: formData,
             });
@@ -129,39 +110,76 @@ const Emily = () => {
     };
 
     return (
-        <Content style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', height: '100%' }}>
-            <Card
-                title={<Space><RobotOutlined style={{ color: '#1890ff' }} /> Emily AI Assistant</Space>}
-                style={{ height: 'calc(100vh - 100px)', display: 'flex', flexDirection: 'column' }}
-                bodyStyle={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 }}
-            >
-                <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        <Content style={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#ffffff',
+            position: 'relative'
+        }}>
+            {messages.length === 0 ? (
+                <div style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingBottom: '100px'
+                }}>
+                    <div style={{
+                        backgroundColor: '#fff',
+                        borderRadius: '50%',
+                        padding: '10px',
+                        marginBottom: '20px',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                    }}>
+                        <RobotOutlined style={{ fontSize: '48px', color: '#10a37f' }} />
+                    </div>
+                    <Title level={2} style={{ marginBottom: 0, fontWeight: 600 }}>Hi, how can I get you started today?</Title>
+                </div>
+            ) : (
+                <div style={{
+                    flex: 1,
+                    overflowY: 'auto',
+                    padding: '20px 20px 120px 20px',
+                    maxWidth: '800px',
+                    margin: '0 auto',
+                    width: '100%'
+                }}>
                     <List
                         itemLayout="horizontal"
                         dataSource={messages}
                         renderItem={(item) => (
-                            <List.Item style={{ borderBottom: 'none', padding: '10px 0' }}>
+                            <List.Item style={{ borderBottom: 'none', padding: '20px 0' }}>
                                 <div style={{
                                     display: 'flex',
-                                    flexDirection: item.role === 'user' ? 'row-reverse' : 'row',
-                                    width: '100%'
+                                    flexDirection: 'row',
+                                    width: '100%',
+                                    gap: '16px'
                                 }}>
                                     <Avatar
                                         icon={item.role === 'user' ? <UserOutlined /> : <RobotOutlined />}
                                         style={{
-                                            backgroundColor: item.role === 'user' ? '#87d068' : '#1890ff',
-                                            margin: item.role === 'user' ? '0 0 0 10px' : '0 10px 0 0'
+                                            backgroundColor: item.role === 'user' ? '#5436DA' : '#10a37f',
+                                            flexShrink: 0
                                         }}
                                     />
-                                    <div style={{
-                                        maxWidth: '70%',
-                                        backgroundColor: item.role === 'user' ? '#e6f7ff' : '#f5f5f5',
-                                        padding: '12px 16px',
-                                        borderRadius: '12px',
-                                        borderTopRightRadius: item.role === 'user' ? '2px' : '12px',
-                                        borderTopLeftRadius: item.role === 'assistant' ? '2px' : '12px',
-                                    }}>
-                                        <Text style={{ whiteSpace: 'pre-wrap' }}>{item.content}</Text>
+                                    <div style={{ flex: 1 }}>
+                                        <Text style={{
+                                            fontWeight: 600,
+                                            display: 'block',
+                                            marginBottom: '4px',
+                                            color: '#343541'
+                                        }}>
+                                            {item.role === 'user' ? 'You' : 'Emily'}
+                                        </Text>
+                                        <div style={{
+                                            lineHeight: '1.6',
+                                            color: '#374151',
+                                            fontSize: '16px'
+                                        }}>
+                                            <Text style={{ whiteSpace: 'pre-wrap' }}>{item.content}</Text>
+                                        </div>
                                     </div>
                                 </div>
                             </List.Item>
@@ -169,35 +187,73 @@ const Emily = () => {
                     />
                     <div ref={messagesEndRef} />
                 </div>
+            )}
 
-                <div style={{ padding: '20px', borderTop: '1px solid #f0f0f0', backgroundColor: '#fff' }}>
-                    <Space.Compact style={{ width: '100%' }}>
+            <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '20px',
+                background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, #ffffff 20%)',
+                paddingBottom: '40px'
+            }}>
+                <div style={{
+                    maxWidth: '800px',
+                    margin: '0 auto',
+                    position: 'relative',
+                    boxShadow: '0 0 15px rgba(0,0,0,0.1)',
+                    borderRadius: '12px',
+                    backgroundColor: '#fff',
+                    border: '1px solid #e5e5e5'
+                }}>
+                    <Input
+                        placeholder="Message Emily..."
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onPressEnter={handleSendMessage}
+                        disabled={isLoading}
+                        style={{
+                            border: 'none',
+                            borderRadius: '12px',
+                            padding: '16px 45px 16px 16px',
+                            fontSize: '16px',
+                            boxShadow: 'none',
+                            backgroundColor: 'transparent'
+                        }}
+                    />
+                    <div style={{
+                        position: 'absolute',
+                        right: '10px',
+                        bottom: '8px',
+                        display: 'flex',
+                        gap: '8px'
+                    }}>
                         <Upload
                             customRequest={handleUpload}
                             showUploadList={false}
                             disabled={isUploading || isLoading}
                         >
-                            <Button icon={<PaperClipOutlined />} disabled={isUploading || isLoading} />
+                            <Button
+                                type="text"
+                                icon={<PaperClipOutlined style={{ fontSize: '18px', color: '#8e8ea0' }} />}
+                                disabled={isUploading || isLoading}
+                                style={{ padding: '4px 8px' }}
+                            />
                         </Upload>
-                        <Input
-                            placeholder="Type a message to Emily..."
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onPressEnter={handleSendMessage}
-                            disabled={isLoading}
-                            style={{ borderRadius: 0 }}
-                        />
                         <Button
-                            type="primary"
-                            icon={<SendOutlined />}
+                            type="text"
+                            icon={<SendOutlined style={{ fontSize: '18px', color: inputValue.trim() ? '#10a37f' : '#8e8ea0' }} />}
                             onClick={handleSendMessage}
-                            loading={isLoading}
-                        >
-                            Send
-                        </Button>
-                    </Space.Compact>
+                            disabled={!inputValue.trim() || isLoading}
+                            style={{ padding: '4px 8px' }}
+                        />
+                    </div>
                 </div>
-            </Card>
+                <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>Emily can make mistakes. Consider checking important information.</Text>
+                </div>
+            </div>
         </Content>
     );
 };
