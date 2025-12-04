@@ -27,6 +27,7 @@ import {
   FilterOutlined,
   WalletOutlined,
   ReconciliationOutlined,
+  RobotOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -54,6 +55,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       key: 'dashboard',
       icon: <DashboardOutlined />,
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
+    },
+    {
+      key: 'emily',
+      icon: <RobotOutlined />,
+      label: <Link to={'/emily'}>Emily AI</Link>,
     },
     {
       key: 'customer',

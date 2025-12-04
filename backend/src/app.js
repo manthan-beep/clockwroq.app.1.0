@@ -13,6 +13,7 @@ const adminAuth = require('./controllers/coreControllers/adminAuth');
 
 const errorHandlers = require('./handlers/errorHandlers');
 const erpApiRouter = require('./routes/appRoutes/appApi');
+const emilyApiRouter = require('./routes/appRoutes/emilyApi');
 
 const fileUpload = require('express-fileupload');
 const path = require('path');
@@ -26,10 +27,10 @@ app.set('trust proxy', 1);
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     // Check if request is secure (HTTPS) or if Railway proxy header indicates HTTPS
-    const isSecure = req.secure || 
-                     req.headers['x-forwarded-proto'] === 'https' ||
-                     req.headers['x-forwarded-ssl'] === 'on';
-    
+    const isSecure = req.secure ||
+      req.headers['x-forwarded-proto'] === 'https' ||
+      req.headers['x-forwarded-ssl'] === 'on';
+
     // If not secure and not already redirected, redirect to HTTPS
     if (!isSecure && req.method === 'GET') {
       const httpsUrl = `https://${req.headers.host}${req.url}`;
@@ -60,6 +61,7 @@ app.use(compression());
 app.use('/api', coreAuthRouter);
 app.use('/api', adminAuth.isValidAuthToken, coreApiRouter);
 app.use('/api', adminAuth.isValidAuthToken, erpApiRouter);
+app.use('/api', adminAuth.isValidAuthToken, emilyApiRouter);
 app.use('/download', coreDownloadRouter);
 app.use('/public', corePublicRouter);
 
@@ -67,7 +69,7 @@ app.use('/public', corePublicRouter);
 if (process.env.NODE_ENV === 'production') {
   const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
   app.use(express.static(frontendBuildPath));
-  
+
   // Handle React routing - return all requests to React app
   // Only for non-API routes (API routes should return 404 if not found)
   app.get('*', (req, res, next) => {
