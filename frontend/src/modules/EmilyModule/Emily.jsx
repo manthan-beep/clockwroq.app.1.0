@@ -111,11 +111,13 @@ const Emily = () => {
 
     return (
         <Content style={{
-            height: '100vh',
+            height: 'calc(100vh - 200px)',
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: '#ffffff',
-            position: 'relative'
+            position: 'relative',
+            borderRadius: '8px',
+            boxShadow: '0 0 20px rgba(0,0,0,0.05)'
         }}>
             {messages.length === 0 ? (
                 <div style={{
